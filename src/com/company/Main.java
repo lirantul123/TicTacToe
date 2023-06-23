@@ -111,7 +111,7 @@ public class Main {
     public static void game_loop(int countBot, int countUser){
         int valR, valC; String answerStr="";
         String[][] board = buildBoard();
-        int resultR, resultC; int count=0; boolean boolTrack = false;
+        int resultR, resultC; int count=0; int countXMoves=0, countOMoves=0;
 
         do {
             printBoard(board);
@@ -124,7 +124,6 @@ public class Main {
             valR = in.nextInt() - 1;
             System.out.print("Enter your place(1-3, col): ");
             valC = in.nextInt() - 1;
-
             while (board[valR][valC].equals("X") || board[valR][valC].equals("O")) {
                 System.out.println("You have placed a char on existing position.");
                 System.out.print("Enter your place-again(1-3, row): ");
@@ -135,30 +134,28 @@ public class Main {
             count++;
 
             setBoardValue(board, valR, valC, "X");
+            countXMoves++;
 
             if (winningSituations(board, "X") && !winningSituations(board, "O"))
                 break;
 
             resultR = botV();
             resultC = botV();
-            if (count % 2 == 0 && !boolTrack){
-                BotC bF = new BotC();
-                bF.aiBlockMove(board);
-                boolTrack = true;
-            }
+            BotC bF = new BotC();
+            boolean follow = bF.aiBlockMove(board);
+            if (follow)
+                countOMoves++;
 
             while ((board[resultR][resultC].equals("X") || board[resultR][resultC].equals("O")) && !isBoardFull(board)) {
                 resultR = botV();
                 resultC = botV();
             }
-            if (!boolTrack)
+
+            if (countXMoves-1 == countOMoves)
                 setBoardValue(board, resultR, resultC, "O");
 
-            boolTrack = false;
             if (!winningSituations(board, "X") && winningSituations(board, "O"))
                 break;
-
-
 
         }while (true);
 
