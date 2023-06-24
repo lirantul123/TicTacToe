@@ -151,12 +151,12 @@ public class Main {
                 resultC = botV();
             }
 
-            if (countXMoves-1 == countOMoves)
+            if (countXMoves == countOMoves)
                 setBoardValue(board, resultR, resultC, "O");
 
             if (!winningSituations(board, "X") && winningSituations(board, "O"))
                 break;
-
+            countOMoves++;
         }while (true);
 
         if (!answerStr.equals("It's a tie!")) {
