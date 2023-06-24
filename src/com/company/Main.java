@@ -133,6 +133,8 @@ public class Main {
             }
             count++;
 
+
+
             setBoardValue(board, valR, valC, "X");
             countXMoves++;
 
